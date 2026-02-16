@@ -6,6 +6,8 @@ macOS menu bar app that shows your Claude Code usage limits at a glance.
 
 - Color-coded menu bar icon (green/yellow/red) based on current usage
 - Session (daily) and weekly limits with progress bars
+- Sonnet-specific weekly limit tracking
+- Extra usage tracking
 - Time until reset (countdown or day+time for >24h)
 - Auto-refresh every 5 minutes
 - Launch at login support
@@ -14,18 +16,23 @@ macOS menu bar app that shows your Claude Code usage limits at a glance.
 ## Requirements
 
 - macOS 14+
-- Xcode Command Line Tools (`xcode-select --install`)
 - Claude Code with active Pro/Max subscription (authenticated via `claude auth login`)
 
 ## Install
 
+### Download
+
+Grab the latest release from [**Releases**](https://github.com/Bergamolt/Limiter/releases/latest) — download `Limiter.zip`, unzip, and drag `Limiter.app` to `/Applications`.
+
+### Build from source
+
 ```bash
-git clone https://github.com/user/Limiter.git
+git clone https://github.com/Bergamolt/Limiter.git
 cd Limiter
 make install
 ```
 
-This builds the app and copies it to `/Applications/Limiter.app`.
+Requires Xcode Command Line Tools (`xcode-select --install`).
 
 ## Usage
 
