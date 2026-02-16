@@ -2,6 +2,8 @@
 
 macOS menu bar app that shows your Claude Code usage limits at a glance.
 
+<img src="assets/screenshot.png" width="300" alt="Limiter screenshot">
+
 ## Features
 
 - Color-coded menu bar icon (green/yellow/red) based on current usage
