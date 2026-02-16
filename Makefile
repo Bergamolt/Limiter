@@ -11,7 +11,8 @@ build:
 	mkdir -p "$(APP_BUNDLE)/Contents/Resources"
 	cp "$(BUILD_DIR)/$(APP_NAME)" "$(APP_BUNDLE)/Contents/MacOS/"
 	cp Resources/Info.plist "$(APP_BUNDLE)/Contents/"
-	cp Resources/AppIcon.icns "$(APP_BUNDLE)/Contents/Resources/"
+	cp Resources/AppIcon.icns "$(APP_BUNDLE)/Contents/Resources/" 2>/dev/null || \
+		iconutil -c icns Resources/Assets.xcassets/AppIcon.appiconset -o "$(APP_BUNDLE)/Contents/Resources/AppIcon.icns" 2>/dev/null || true
 	@echo "Build complete: $(APP_BUNDLE)"
 
 run: build

@@ -2,7 +2,7 @@
 
 macOS menu bar app that shows your Claude Code usage limits at a glance.
 
-<img src="assets/screenshot.png" width="300" alt="Limiter screenshot">
+<img src=".github/screenshot.png" width="300" alt="Limiter screenshot">
 
 ## Features
 
