@@ -30,18 +30,17 @@ final class UsageMonitor {
     var lastUpdated: Date?
     var error: String?
 
-    var onUpdate: (@MainActor (Int) -> Void)?
-
     private var timer: Timer?
     private let updateInterval: TimeInterval = 300
+    private let retryBaseInterval: TimeInterval = 10
+    private var consecutiveErrors = 0
+
+    private var started = false
 
     func startMonitoring() {
+        guard !started else { return }
+        started = true
         fetch()
-        timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.fetch()
-            }
-        }
     }
 
     func fetch() {
@@ -59,15 +58,32 @@ final class UsageMonitor {
                     self.sections = parsed
                     self.lastUpdated = Date()
                     self.isLoading = false
-                    let maxPercent = parsed.map(\.percent).max() ?? 0
-                    self.onUpdate?(maxPercent)
+                    self.consecutiveErrors = 0
+                    self.scheduleNext()
                 }
             } catch {
                 await MainActor.run { [weak self] in
                     guard let self else { return }
                     self.error = error.localizedDescription
                     self.isLoading = false
+                    self.consecutiveErrors += 1
+                    self.scheduleNext()
                 }
+            }
+        }
+    }
+
+    private func scheduleNext() {
+        timer?.invalidate()
+        let delay: TimeInterval
+        if consecutiveErrors > 0 {
+            delay = min(retryBaseInterval * pow(2, Double(consecutiveErrors - 1)), updateInterval)
+        } else {
+            delay = updateInterval
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
+            Task { @MainActor in
+                self?.fetch()
             }
         }
     }

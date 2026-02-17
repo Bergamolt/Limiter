@@ -10,6 +10,7 @@ struct PopoverView: View {
             header
             Divider().padding(.vertical, 8)
             content
+                .transaction { $0.animation = nil }
             footer
         }
         .padding()
