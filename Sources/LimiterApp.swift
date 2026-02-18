@@ -12,17 +12,20 @@ struct LimiterApp: App {
                     monitor.startMonitoring()
                 }
         } label: {
-            Image(systemName: "circle.fill")
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(iconColor)
+            MenuBarLabel(monitor: monitor)
         }
         .menuBarExtraStyle(.window)
     }
+}
 
-    private var iconColor: Color {
+private struct MenuBarLabel: View {
+    var monitor: UsageMonitor
+
+    var body: some View {
         let percent = monitor.sections.map(\.percent).max() ?? 0
-        if percent < 50 { return .green }
-        if percent < 80 { return .yellow }
-        return .red
+        let color: Color = percent < 50 ? .green : percent < 80 ? .yellow : .red
+        Image(systemName: "circle.fill")
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(color)
     }
 }
