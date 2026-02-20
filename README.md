@@ -17,7 +17,7 @@ macOS menu bar app that shows your Claude Code usage limits at a glance.
 
 ## Requirements
 
-- macOS 14+
+- macOS 26+
 - Claude Code with active Pro/Max subscription (authenticated via `claude auth login`)
 
 ## Install
